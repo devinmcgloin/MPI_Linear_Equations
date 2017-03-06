@@ -32,11 +32,12 @@ for row in "${rowArr[@]}";
 do
         for col in "${colArr[@]}";
                 do
+                getTiming 1 $row
+                seq=$avg
+ 
                 if (( $col <= $row )); then
                         echo "ROWS: $row CORES: $col"
-                        getTiming 1 $row
-                        seq=$avg
-                        
+                       
                         getTiming $col $row
                         printf "%6f %6f\n" $(echo $avg | head -c 5) $(echo $seq / $avg | bc -l) 
                 fi
