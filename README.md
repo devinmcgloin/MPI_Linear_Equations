@@ -9,6 +9,4 @@ Usage:
         
 ./MPIAutomationScript:
 
-        Creates outputs in output.txt
-        Creates time results in time.txt
-        
+        Prints average time and speedup to stdout
