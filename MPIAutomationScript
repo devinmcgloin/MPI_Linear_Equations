@@ -9,6 +9,7 @@ colArr=("1" "2" "4" "8" "16" "32" "64")
 echo "STARTED"
 rm -rf output.txt
 rm -rf time.txt
+module load openmpi-x86_64
 
 for row in "${rowArr[@]}";
 do
