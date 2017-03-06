@@ -1,6 +1,23 @@
 #!/bin/bash
 # AUTOMATION
 
+avg=""
+
+function getTiming(){
+    arr=()
+    for (( num=1; num<=5; num++));
+        do
+            n=$(time (mpirun -n $1 ./gs $2$txt 2> /dev/null 1> /dev/null) 2>&1 )
+            t=$(echo $n | grep -P -o '(?<=real\s0m)(\d+.\d+)')
+            arr=("${arr[@]}" $t)
+        done
+        total=0
+        for var in "${arr[@]}"; do 
+            total=$(echo $total + $var | bc -l)
+        done
+        avg=$(echo $total / 5 | bc -l)
+}
+
 txt=".txt"
 
 rowArr=("2" "4" "8" "16" "32" "64" "128" "256" "512" "1024" "2048" "4096")
@@ -16,15 +33,12 @@ do
         for col in "${colArr[@]}";
                 do
                 if (( $col <= $row )); then
-                        for (( num=1; num<=5; num++));
-                        do
-                                echo "ROWS: $row CORES: $col TRIAL: $num" >> output.txt
-                                echo "ROWS: $row CORES: $col TRIAL: $num" >> time.txt
-                                echo "ROWS: $row CORES: $col TRIAL: $num"
-                                (time mpirun -n $col ./gs $row$txt) >> output.txt 2>> time.txt
-                                echo "" >> output.txt
-                                echo "" >> time.txt
-                        done
+                        echo "ROWS: $row CORES: $col"
+                        getTiming 1 $row
+                        seq=$avg
+                        
+                        getTiming $col $row
+                        printf "%6f %6f\n" $(echo $avg | head -c 5) $(echo $seq / $avg | bc -l) 
                 fi
         done
 done
