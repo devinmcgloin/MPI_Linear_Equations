@@ -1,6 +1,7 @@
 # MPI_Linear_Equations
 
 Usage:
+
         If doesn't work, change write and execution privilege by running        
         chmod 755 MPIAutomationScript
 
