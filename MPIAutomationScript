@@ -1,0 +1,29 @@
+#!/bin/bash
+# AUTOMATION
+
+txt=".txt"
+
+rowArr=("2" "4" "8" "16" "32" "64" "128" "256" "512" "1024" "2048" "4096")
+colArr=("1" "2" "4" "8" "16" "32" "64")
+
+echo "STARTED"
+rm -rf output.txt
+rm -rf time.txt
+
+for row in "${rowArr[@]}";
+do
+        for col in "${colArr[@]}";
+                do
+                if (( $col <= $row )); then
+                        for (( num=1; num<=5; num++));
+                        do
+                                echo "ROWS: $row CORES: $col TRIAL: $num" >> output.txt
+                                echo "ROWS: $row CORES: $col TRIAL: $num" >> time.txt
+                                echo "ROWS: $row CORES: $col TRIAL: $num"
+                                (time mpirun -n $col ./gs $row$txt) >> output.txt 2>> time.txt
+                                echo "" >> output.txt
+                                echo "" >> time.txt
+                        done
+                fi
+        done
+done
