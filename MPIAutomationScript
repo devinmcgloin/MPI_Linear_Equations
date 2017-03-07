@@ -30,12 +30,11 @@ module load openmpi-x86_64
 
 for row in "${rowArr[@]}";
 do
+        getTiming 1 $row
+        seq=$avg
         for col in "${colArr[@]}";
                 do
-                getTiming 1 $row
-                seq=$avg
- 
-                if (( $col <= $row )); then
+                    if (( $col <= $row )); then
                         echo "ROWS: $row CORES: $col"
                        
                         getTiming $col $row
